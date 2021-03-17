@@ -1,3 +1,5 @@
+echo "DO NOT RUN LOCALLY! YOU COMPUTER MIGHT BREAK DOWN."
+
 git clone https://github.com/circulosmeos/gdown.pl.git
 mkdir train
 
