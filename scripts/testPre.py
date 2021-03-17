@@ -45,7 +45,6 @@ def create_waypoints(sample_submission, pathID):
     pathdef = sample_submission.loc[sample_submission['Path'] == pathID]
         
     for index, row in pathdef.iterrows():
-        print(str(row['Timestamp']))
         waypoint.append(str(row['Timestamp']) + ',' + ',' + ',')
     
     return waypoint
