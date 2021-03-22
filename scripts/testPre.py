@@ -107,7 +107,7 @@ if __name__ == "__main__":
     # Different paths
     test_folder = '../test/'
     sample_submission = '../sample_submission.csv'
-    reformatted_test = './test_reformatted/'
+    reformatted_test = '../data/test/'
     reformatted_ss = 'sample_submission_reformatted.csv'
 
     # Reformat sample_submission.csv to divide the Ids into Site, Path and Timestamp

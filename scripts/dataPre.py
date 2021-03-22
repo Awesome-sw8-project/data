@@ -11,7 +11,7 @@ import json
 metadata_path = '../metadata/'
 train_path = '../train/'
 test_path = '../test/'
-save_location = './train/'
+save_location = '../data/train/'
 
 # Retrieve the floor number of those not defined in meta data and which is easier to convert
 def get_floor_manually(floor):
