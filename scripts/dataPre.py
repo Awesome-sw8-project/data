@@ -11,26 +11,28 @@ import json
 metadata_path = '../metadata/'
 train_path = '../train/'
 test_path = '../test/'
-save_location = './train/'
+save_location = '../data/train/'
 
-# Retive the floor number of those not defined in meta data and which is easier to convert
-
+# Retrieve the floor number of those not defined in meta data and which is easier to convert
 def get_floor_manually(floor):
 
+    # Checks basement levels
     if re.match(r"^(B|LG)[0-9]+|[0-9]+B$",floor):
         floor = int(''.join(filter(str.isdigit, floor))) * -1
         return str(floor)
     
+    # Checks floor levels above 
     if re.match(r"^(F|L)[0-9]|[0-9]F$",floor):
         floor = int(''.join(filter(str.isdigit, floor))) - 1
         return str(floor)
 
+    # Hardcoded to handle the specific scenario of converting P1-level
     if floor == 'P1':
         return -3
 
     return "U"
 
-# Retrive the floor number from the meta data
+# Retrieve the floor number from the meta data
 def get_floor_num(data_in):
     with open(metadata_path + data_in + "/geojson_map.json") as json_file:
         data = json.loads(json_file.read())
@@ -42,7 +44,7 @@ def get_floor_num(data_in):
         except:
             return get_floor_manually(data_in.split('/')[1])
 
-# Retrive the relevant data from the comments in the original files        
+# Retrieve the relevant data from the comments in the original files        
 def decode_comment(line):
     if 'SiteName' in line:
         if 'FloorId' not in line:
@@ -61,7 +63,6 @@ def decode_comment(line):
 
 # Read the original data files and write the relevant info to a new file
 def read_data_file(data_filename):
-
     path = data_filename.split('/')
 
     siteID = path[2]
@@ -127,13 +128,16 @@ def read_data_file(data_filename):
         file.write("#\t" + endTime)
 
 
+if __name__ == "__main__":
+    # Make folder to save data in
+    if os.path.exists(save_location):
+        os.mkdir(save_location)
 
-
-# Find all the paths
-for site in os.listdir(train_path):
-    site_path = os.path.join(train_path, site)
-    for floor in os.listdir(site_path):
-        floors = os.path.join(site_path, floor)
-        for path in os.listdir(floors):
-            paths = os.path.join(floors, path)
-            read_data_file(paths)
+    # Find all the paths
+    for site in os.listdir(train_path):
+        site_path = os.path.join(train_path, site)
+        for floor in os.listdir(site_path):
+            floors = os.path.join(site_path, floor)
+            for path in os.listdir(floors):
+                paths = os.path.join(floors, path)
+                read_data_file(paths)
